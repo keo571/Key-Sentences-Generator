@@ -37,7 +37,7 @@ Suppose the document consists of *n* distinct sentences and *m* unique words. Ne
 *a<sub>i,j</sub>* tends to be small if *i* does not appear in many sentences (i.e., *n<sub>i</sub> is small). The *n*+1 ensures that we do not divide by zero when calculating *a<sub>i,j</sub>*; in particular, even if word *i* appears in every sentence (*n<sub>i</sub>* = *n*), the value ln ((*n* + 1) / (*n<sub>i</sub>*)) > 0. Each sentence contains just a few of the possible words. Therefore, A is sparse.
 
 Here plot the sparse matrix A:
-![alt text](https://github.com/keo571/Key-Sentences-Generator/blob/master/sparse_matrix_A.png?raw=true)
+![alt text](https://github.com/keo571/Key_Sentences_Generator/blob/master/sparse_matrix_A.png?raw=true)
 
 ### Mathematical formulation of the task
 Word’s importance is *w<sub>i</sub>*, sentence importance is *s<sub>j</sub>*. These scores are inter-related. Suppose these relationships are linear, then *w<sub>i</sub>* is proportional to the sum of *a<sub>i,j</sub>* * *s<sub>j</sub>* for every sentence, *s<sub>j</sub>* is proportional to the sum of *a<sub>i,j</sub>* * *w<sub>i</sub>* for every word.
@@ -59,7 +59,7 @@ We find the largest singular value σ<sub>0</sub> of A, and it left and right si
  
 Here plot the u<sub>0</sub> and v<sub>0</sub>:
 
-![alt text](https://github.com/keo571/Key-Sentences-Generator/blob/master/entries_u0&v0.png?raw=true)
+![alt text](https://github.com/keo571/Key_Sentences_Generator/blob/master/entries_u0&v0.png?raw=true)
 
 Finally, we can use u<sub>0</sub> and v<sub>0</sub> to rank the words and sentences.
 
