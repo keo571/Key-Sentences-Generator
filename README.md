@@ -32,9 +32,11 @@ The algorithm comes from the book *Matrix Methods in Data Mining and Pattern Rec
 It is based on the intuitive idea that a sentence is important if it contains many important words. And a word is important if it appears in many important sentences.
 
 ### Data Representation
-Suppose the document consists of *n* distinct sentences and *m* unique words. Next, let *i* be a word and let *j* be a sentence. Furthermore, let *n<sub>i</sub>* denote the number of sentences containing word *i*. We can represent the document by a matrix A, called the term-sentence matrix, where each entry *a<sub>i,j</sub>* is defined as: 1 / ln ((*n* + 1) / (*n<sub>i</sub>*)) if word *i* appears in sentence *j*, or 0 otherwise.
+Suppose the document consists of *n* distinct sentences and *m* unique words. Next, let *i* be a word and let *j* be a sentence. Furthermore, let *n<sub>i</sub>* denote the number of sentences containing word *i*. We can represent the document by a matrix A, called the term-sentence matrix, where each entry *a<sub>i,j</sub>* is defined as: 
 
-*a<sub>i,j</sub>* tends to be small if *i* does not appear in many sentences (i.e., *n<sub>i</sub> is small). The *n*+1 ensures that we do not divide by zero when calculating *a<sub>i,j</sub>*; in particular, even if word *i* appears in every sentence (*n<sub>i</sub>* = *n*), the value ln ((*n* + 1) / (*n<sub>i</sub>*)) > 0. Each sentence contains just a few of the possible words. Therefore, A is sparse.
+<img src="https://render.githubusercontent.com/render/math?math=a_%7Bi%2Cj%7D%20%3D%20%0A%5Cbegin%7Bcases%7D%20%0A%5Cfrac%7B1%7D%7B%5Cln(%5Cfrac%7Bn%2B1%7D%7Bn_i%7D)%7D%20%26%20%5Ctext%7Bif%20word%20i%20appears%20in%20sentence%20j%2C%20or%7D%20%5C%5C%0A0%20%26%20%5Ctext%7Botherwise.%7D%0A%5Cend%7Bcases%7D">
+
+*a<sub>i,j</sub>* tends to be small if *i* does not appear in many sentences (i.e., *n<sub>i</sub>* is small). The *n*+1 ensures that we do not divide by zero when calculating *a<sub>i,j</sub>*; in particular, even if word *i* appears in every sentence (*n<sub>i</sub>* = *n*), the value ln ((*n* + 1) / (*n<sub>i</sub>*)) > 0. Each sentence contains just a few of the possible words. Therefore, A is sparse.
 
 Here plot the sparse matrix A:
 ![alt text](https://github.com/keo571/Key_Sentences_Generator/blob/master/sparse_matrix_A.png?raw=true)
@@ -45,13 +47,23 @@ Word’s importance is *w<sub>i</sub>*, sentence importance is *s<sub>j</sub>*. 
 Figure out the *w<sub>i</sub>* and *s<sub>j</sub>* for every word and every sentence, then the most important words and sentences should have the largest scores.
 
 The above model can be rewritten in matrix form.
-Letting *w* = [*w<sub>0</sub>*,*w<sub>1</sub>*,…,*w<sub>m−1</sub>*] be the (column) vector of word scores and *s* = [*s<sub>0</sub>*,*s<sub>1</sub>*,…,*s<sub>n−1</sub>*] be the (column) vector of sentence scores, we can define *w* and *s* as: *c<sub>w</sub>w* = A*s*, *c<sub>s</sub>s* = A<sup>T</sup>*W*, where *c<sub>w</sub>* and *c<sub>s</sub>* are two unknown contants.
+Letting *w* = [*w<sub>0</sub>*,*w<sub>1</sub>*,…,*w<sub>m−1</sub>*] be the (column) vector of word scores and *s* = [*s<sub>0</sub>*,*s<sub>1</sub>*,…,*s<sub>n−1</sub>*] be the (column) vector of sentence scores, we can define *w* and *s* as:
 
-Going one step further, plug these two eauations into one antoher to obtain the following: (AA<sup>T</sup>)*w* = (*c<sub>s</sub>c<sub>w</sub>*)*w*, (A<sup>T</sup>A)*s* = (*c<sub>w</sub>c<sub>s</sub>*)*s*.
+<img src="https://render.githubusercontent.com/render/math?math=%5Cbegin%7Barray%7D%7Bc%7D%0Aw_i%20%5Cpropto%20%5Csum_j%20a_%7Bi%2Cj%7D%20s_j%20%5C%5C%0As_j%20%5Cpropto%20%5Csum_i%20a_%7Bj%2Ci%7D%20w_i%0A%5Cend%7Barray%7D">
+
+*c<sub>w</sub>* and *c<sub>s</sub>* are two unknown contants.
+
+Going one step further, plug these two eauations into one antoher to obtain the following:
+
+<img src="https://render.githubusercontent.com/render/math?math=%5Cbegin%7Barray%7D%7Bc%7D%0A%20%20(A%20A%5ET)%20w%20%3D%20(c_s%20c_w)%20w%20%5C%5C%0A%20%20(A%5ET%20A)%20s%20%3D%20(c_w%20c_s)%20s%0A%5Cend%7Barray%7D">
 
 Now it becomes eigenvalue problems. Using SVD, we can have *s* and *w*. 
 
-SVD takes a rectangular matrix of gene expression data (defined as A, where A is a *n x p* matrix) in which the *n* rows represents the genes, and the *p* columns represents the experimental conditions. The SVD theorem states: A<sub>*n x p*</sub> = U<sub>*n x n*</sub>S<sub>*n x p*</sub>V<sup>T</sup><sub>*p x p*</sub>, where  U and V are orthogonal.
+SVD takes a rectangular matrix of gene expression data (defined as A, where A is a *n x p* matrix) in which the *n* rows represents the genes, and the *p* columns represents the experimental conditions. The SVD theorem states:
+
+<img src="https://render.githubusercontent.com/render/math?math=A_%7Bn%20%5Ctimes%20p%7D%20%3D%20U_%7Bn%20%5Ctimes%20n%7DS_%7Bn%20%5Ctimes%20p%7DV%5ET_%7Bp%20%5Ctimes%20p%7D">
+
+U and V are orthogonal.
 
 The eigenvectors of A<sup>T</sup>A make up the columns of V , the eigenvectors of AA<sup>T</sup> make up the columns of U. Also, the singular values in S are square roots of eigenvalues from A<sup>T</sup>A or AA<sup>T</sup>.  
 
