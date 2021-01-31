@@ -148,5 +148,5 @@ class KeySentenceGenerator:
 
 if __name__ == '__main__':
 
-    path = "/Users/qiyaowu/Desktop/test.txt"
+    path = "/Users/{xxx}/Desktop/test.txt"
     KeySentenceGenerator(path).gen_ranking()
